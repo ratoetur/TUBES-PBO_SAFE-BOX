@@ -3,7 +3,9 @@
 
 #include <vector>
 #include <algorithm>
-using namespace std;
+
+using std::vector;
+using std::fill;
 
 template <typename T>
 class SecureBuffer {
@@ -11,6 +13,10 @@ private:
     vector<T> buffer;
 
 public:
+    void push(const T& val) { 
+        buffer.push_back(val); 
+    }
+
     void setData(const vector<T>& data) {
         buffer = data;
     }

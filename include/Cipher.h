@@ -10,6 +10,10 @@ public:
     virtual vector<char> decrypt(const vector<char>& data) = 0;
 
     virtual ~Cipher() {}
+
+    bool operator==(const string& inputKey) const {
+        return secretKey == inputKey;
+    }
 };
 
 #endif

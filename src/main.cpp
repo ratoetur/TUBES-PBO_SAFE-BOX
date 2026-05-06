@@ -2,10 +2,10 @@
 #include <vector>
 #include <exception>
 
-#include "Cipher.h"
-#include "XorCipher.h"
-#include "FileManager.h"
-#include "SecureBuffer.h"
+#include "../include/Cipher.h"
+#include "../include/XorCipher.h"
+#include "../include/FileManager.h"
+#include "../include/SecureBuffer.h"
 
 using namespace std;
 
