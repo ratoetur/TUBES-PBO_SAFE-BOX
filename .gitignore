@@ -1,0 +1,5 @@
+*.exe
+*.sbox
+*.enc
+*_decrypted.txt
+.vscode/
