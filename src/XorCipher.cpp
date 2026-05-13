@@ -1,7 +1,7 @@
-#include "XorCipher.h"
+#include "../include/XorCipher.h"
 #include <algorithm>
 
-XorCipher::XorCipher(string key) {
+XorCipher::XorCipher(const string& key) {
     this->secretKey = key;
 }
 
@@ -28,24 +28,15 @@ string XorCipher::getAlgorithmName() const {
     return "XOR Cipher";
 }
 
-SecureBuffer XorCipher::encryptSecure(const SecureBuffer& data) {
-    vector<char> raw = data.toCharVector();
-    vector<char> encrypted = encrypt(raw);
-
-    SecureBuffer result;
+SecureBuffer<char> XorCipher::encryptSecure(const SecureBuffer<char>& data) {
+    vector<char> encrypted = encrypt(data.toCharVector());
+    SecureBuffer<char> result;
     result.fromCharVector(encrypted);
-
     return result;
 }
-
-SecureBuffer XorCipher::decryptSecure(const SecureBuffer& data) {
-    vector<char> raw = data.toCharVector();
-    vector<char> decrypted = decrypt(raw);
-
-    SecureBuffer result;
-    result.fromCharVector(decrypted);
-
-    return result;
+ 
+SecureBuffer<char> XorCipher::decryptSecure(const SecureBuffer<char>& data) {
+    return encryptSecure(data);
 }
 
 XorCipher::~XorCipher() {

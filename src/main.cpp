@@ -7,8 +7,12 @@
 #include "../include/CaesarCipher.h"
 #include "../include/ShiftCipher.h"
 #include "../include/FileManager.h"
+#include "../include/SecureBuffer.h"
+#include "../include/SecureKey.h"
+#include "../include/SafeBoxException.h"
 
 using namespace std;
+
 
 Cipher* pilihAlgoritma(const string& key) {
     int pilihanAlgoritma;
@@ -33,6 +37,16 @@ Cipher* pilihAlgoritma(const string& key) {
     return nullptr;
 }
 
+string inputKeyDenganValidasi() {
+    string key;
+    cout << "Masukkan key (minimal 8 karakter): ";
+    cin >> key;
+ 
+    SecureKey sk;
+    sk.setKey(key); 
+    return sk.getRawKey();
+}
+
 int main() {
     int pilihan;
 
@@ -49,7 +63,7 @@ int main() {
         cout << endl;
 
         if (pilihan == 1) {
-            string inputFile, outputFile, key;
+            string inputFile, outputFile;
 
             cout << "Masukkan nama file input: ";
             cin >> inputFile;
@@ -57,34 +71,53 @@ int main() {
             cout << "Masukkan nama file output: ";
             cin >> outputFile;
 
-            cout << "Masukkan key: ";
-            cin >> key;
-
-            try {
+             try {
+                string key = inputKeyDenganValidasi();
+ 
                 FileManager fileManager;
+ 
+                if (!fileManager.exists(inputFile)) {
+                    throw FileNotFoundException(inputFile);
+                }
+ 
                 Cipher* cipher = pilihAlgoritma(key);
-
                 if (cipher == nullptr) {
                     cout << "Algoritma tidak valid!" << endl;
                     continue;
                 }
-
+ 
                 vector<char> data = fileManager.readBinaryFile(inputFile);
-                vector<char> encrypted = cipher->encrypt(data);
-
-                fileManager.writeBinaryFile(outputFile, encrypted);
-
-                cout << "Algoritma: " << cipher->getAlgorithmName() << endl;
-                cout << "File berhasil dienkripsi ke: " << outputFile << endl;
-
+ 
+                SecureBuffer<char> buffer;
+                buffer.setData(data);
+ 
+                fileManager.encryptFile(inputFile, *cipher);
+ 
+                //cb
+                if (fileManager.removeFile(inputFile)) {
+                    cout << "File asli berhasil dihapus." << endl;
+                } else {
+                    cout << "Warning: file asli gagal dihapus." << endl;
+                }
+                //cb
                 delete cipher;
+
+                 cout << "File berhasil dienkripsi ke: " << outputFile << endl;
+
             }
-            catch (exception& e) {
+            catch (const invalid_argument& e) {
+                cout << "Key tidak valid: " << e.what() << endl;
+            }
+            catch (const SafeBoxException& e) {
+                cout << e.what() << endl;
+            }
+            catch (const exception& e) {
                 cout << "Error: " << e.what() << endl;
             }
+
         }
         else if (pilihan == 2) {
-            string inputFile, outputFile, key;
+            string inputFile, outputFile;
 
             cout << "Masukkan nama file input terenkripsi: ";
             cin >> inputFile;
@@ -92,29 +125,52 @@ int main() {
             cout << "Masukkan nama file output hasil dekripsi: ";
             cin >> outputFile;
 
-            cout << "Masukkan key: ";
-            cin >> key;
-
             try {
+                string key = inputKeyDenganValidasi();
+ 
                 FileManager fileManager;
+ 
+                if (!fileManager.exists(inputFile)) {
+                    throw FileNotFoundException(inputFile);
+                }
+ 
                 Cipher* cipher = pilihAlgoritma(key);
-
                 if (cipher == nullptr) {
                     cout << "Algoritma tidak valid!" << endl;
                     continue;
                 }
-
+ 
                 vector<char> data = fileManager.readBinaryFile(inputFile);
-                vector<char> decrypted = cipher->decrypt(data);
+ 
+                SecureBuffer<char> buffer;
+                buffer.setData(data);
+ 
+                vector<char> decrypted = cipher->decrypt(buffer.getData());
 
                 fileManager.writeBinaryFile(outputFile, decrypted);
+ 
+                //cb
+                fileManager.decryptFile(inputFile, *cipher);
 
-                cout << "Algoritma: " << cipher->getAlgorithmName() << endl;
+                if (fileManager.removeFile(inputFile)) {
+                    cout << "File terenkripsi berhasil dihapus." << endl;
+                } else {
+                    cout << "Warning: file terenkripsi gagal dihapus." << endl;
+                }
+                //cb
+                delete cipher;
+
                 cout << "File berhasil didekripsi ke: " << outputFile << endl;
 
                 delete cipher;
             }
-            catch (exception& e) {
+            catch (const invalid_argument& e) {
+                cout << "Key tidak valid: " << e.what() << endl;
+            }
+            catch (const SafeBoxException& e) {
+                cout << e.what() << endl;
+            }
+            catch (const exception& e) {
                 cout << "Error: " << e.what() << endl;
             }
         }
