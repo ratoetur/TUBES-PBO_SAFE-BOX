@@ -4,8 +4,9 @@
 
 #include "../include/Cipher.h"
 #include "../include/XorCipher.h"
+#include "../include/CaesarCipher.h"
+#include "../include/ShiftCipher.h"
 #include "../include/FileManager.h"
-#include "../include/SecureBuffer.h"
 
 using namespace std;
 
@@ -14,11 +15,19 @@ Cipher* pilihAlgoritma(const string& key) {
 
     cout << "Pilih algoritma enkripsi:" << endl;
     cout << "1. XOR Cipher" << endl;
+    cout << "2. Caesar Cipher" << endl;
+    cout << "3. Shift Cipher" << endl;
     cout << "Pilihan algoritma: ";
     cin >> pilihanAlgoritma;
 
     if (pilihanAlgoritma == 1) {
         return new XorCipher(key);
+    }
+    else if (pilihanAlgoritma == 2) {
+        return new CaesarCipher(key);
+    }
+    else if (pilihanAlgoritma == 3) {
+        return new ShiftCipher(key);
     }
 
     return nullptr;
@@ -61,16 +70,14 @@ int main() {
                 }
 
                 vector<char> data = fileManager.readBinaryFile(inputFile);
+                vector<char> encrypted = cipher->encrypt(data);
 
-                SecureBuffer<char> buffer;
-                buffer.setData(data);
-
-                vector<char> encrypted = cipher->encrypt(buffer.getData());
                 fileManager.writeBinaryFile(outputFile, encrypted);
 
-                delete cipher;
-
+                cout << "Algoritma: " << cipher->getAlgorithmName() << endl;
                 cout << "File berhasil dienkripsi ke: " << outputFile << endl;
+
+                delete cipher;
             }
             catch (exception& e) {
                 cout << "Error: " << e.what() << endl;
@@ -98,16 +105,14 @@ int main() {
                 }
 
                 vector<char> data = fileManager.readBinaryFile(inputFile);
+                vector<char> decrypted = cipher->decrypt(data);
 
-                SecureBuffer<char> buffer;
-                buffer.setData(data);
-
-                vector<char> decrypted = cipher->decrypt(buffer.getData());
                 fileManager.writeBinaryFile(outputFile, decrypted);
 
-                delete cipher;
-
+                cout << "Algoritma: " << cipher->getAlgorithmName() << endl;
                 cout << "File berhasil didekripsi ke: " << outputFile << endl;
+
+                delete cipher;
             }
             catch (exception& e) {
                 cout << "Error: " << e.what() << endl;

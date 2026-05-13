@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "Cipher.h"
+#include "SecureBuffer.h"
 
 using namespace std;
 
