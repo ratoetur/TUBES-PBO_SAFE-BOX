@@ -1,30 +1,25 @@
-```cpp
 #ifndef XORCIPHER_H
 #define XORCIPHER_H
 
-#include "Cipher.h"
-#include "securebuffer.h"
+#include "../include/Cipher.h"
+#include "../include/SecureBuffer.h"
 #include <string>
 #include <vector>
 
 using namespace std;
 
 class XorCipher : public Cipher {
-private:
-    string key;
-
 public:
-    XorCipher(string key);
+    XorCipher(const string& key);
 
     vector<char> encrypt(const vector<char>& data) override;
     vector<char> decrypt(const vector<char>& data) override;
     string getAlgorithmName() const override;
 
-    SecureBuffer encryptSecure(const SecureBuffer& data);
-    SecureBuffer decryptSecure(const SecureBuffer& data);
+    SecureBuffer<char> encryptSecure(const SecureBuffer<char>& data);
+    SecureBuffer<char> decryptSecure(const SecureBuffer<char>& data);
 
     ~XorCipher();
 };
 
 #endif
-```
