@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <exception>
+#include <ctime>
 
 #include "../include/Cipher.h"
 #include "../include/XorCipher.h"
@@ -10,6 +11,7 @@
 #include "../include/SecureBuffer.h"
 // #include "../include/SecureKey.h"
 // #include "../include/SafeBoxException.h"
+#include "../include/FileRegistry.h"
 
 using namespace std;
 
@@ -51,8 +53,21 @@ string inputKeyDenganValidasi() {
     return key;
 }
 
+string getCurrentTime() {
+    time_t now = time(0);
+    string dt = ctime(&now);
+    dt.pop_back(); 
+    return dt;
+}
+
+string buat_hint(const string& key) {
+    if (key.length() <= 4) return "****";
+    return key.substr(0, 2) + string(key.length() - 4, '*') + key.substr(key.length() - 2);
+}
+
 int main() {
     int pilihan;
+    FileRegistry registry;
 
     do {
         cout << "====================================" << endl;
@@ -60,7 +75,8 @@ int main() {
         cout << "====================================" << endl;
         cout << "1. Encrypt File" << endl;
         cout << "2. Decrypt File" << endl;
-        cout << "3. Exit" << endl;
+        cout << "3. Riwayat File" << endl;
+        cout << "4. Exit" << endl;
         cout << "Pilih menu: ";
         cin >> pilihan;
 
@@ -103,6 +119,13 @@ int main() {
 
                 delete cipher;
                 cout << "File berhasil dienkripsi ke: " << outputFile << endl;
+
+                registry.tambah(
+                    outputFile,
+                    "XOR",
+                    buat_hint(key),
+                    getCurrentTime()
+                );
             }
             catch (const exception& e) {
                 cout << "Error: " << e.what() << endl;
@@ -145,12 +168,22 @@ int main() {
 
                 delete cipher;
                 cout << "File berhasil didekripsi ke: " << outputFile << endl;
+
+                registry.tambah(
+                    outputFile,
+                    "DECRYPT-XOR",
+                    buat_hint(key),
+                    getCurrentTime()
+                );
             }
             catch (const exception& e) {
                 cout << "Error: " << e.what() << endl;
             }
         }
         else if (pilihan == 3) {
+            registry.tampilkan();
+        }
+        else if (pilihan == 4) {
             cout << "Keluar dari program..." << endl;
         }
         else {
@@ -159,7 +192,7 @@ int main() {
 
         cout << endl;
 
-    } while (pilihan != 3);
+    } while (pilihan != 4);
 
     return 0;
 }
