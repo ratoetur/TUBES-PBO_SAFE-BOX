@@ -66,14 +66,21 @@ int main() {
 
         cout << endl;
 
-        if (pilihan == 1) {
+                       if (pilihan == 1) {
             string inputFile, outputFile;
 
             cout << "Masukkan nama file input: ";
             cin >> inputFile;
 
-            cout << "Masukkan nama file output: ";
-            cin >> outputFile;
+            // --- OTOMATIS JADIN .sbox ---
+            size_t titikTerakhir = inputFile.find_last_of(".");
+            
+            if (titikTerakhir != string::npos) {
+                outputFile = inputFile.substr(0, titikTerakhir) + ".sbox";
+            } else {
+                outputFile = inputFile + ".sbox";
+            }
+            // -----------------------------
 
             try {
                 string key = inputKeyDenganValidasi();
@@ -85,16 +92,11 @@ int main() {
  
                 Cipher* cipher = pilihAlgoritma(key);
  
-                // 1. Baca file asli
                 vector<char> data = fileManager.readBinaryFile(inputFile);
- 
-                // 2. Enkripsi datanya (Menggunakan Polymorphism)
                 vector<char> encrypted = cipher->encrypt(data);
  
-                // 3. TULIS HASILNYA KE OUTPUTFILE YANG KAMU MAU!
                 fileManager.writeBinaryFile(outputFile, encrypted);
  
-                // 4. Hapus file asli (sesuai permintaan kamu)
                 if (fileManager.removeFile(inputFile)) {
                     cout << "File asli berhasil dihapus." << endl;
                 } else {
@@ -127,16 +129,11 @@ int main() {
  
                 Cipher* cipher = pilihAlgoritma(key);
  
-                // 1. Baca file terenkripsi
                 vector<char> data = fileManager.readBinaryFile(inputFile);
- 
-                // 2. Dekripsi datanya (Menggunakan Polymorphism)
                 vector<char> decrypted = cipher->decrypt(data);
 
-                // 3. TULIS HASILNYA KE OUTPUTFILE!
                 fileManager.writeBinaryFile(outputFile, decrypted);
  
-                // 4. Hapus file terenkripsi
                 if (fileManager.removeFile(inputFile)) {
                     cout << "File terenkripsi berhasil dihapus." << endl;
                 } else {
@@ -162,4 +159,5 @@ int main() {
     } while (pilihan != 3);
 
     return 0;
+    
 }
