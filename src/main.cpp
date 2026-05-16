@@ -110,14 +110,23 @@ int main() {
                 cout << "Error: " << e.what() << endl;
             }
         }
-        else if (pilihan == 2) {
+               else if (pilihan == 2) {
             string inputFile, outputFile;
 
             cout << "Masukkan nama file input terenkripsi: ";
             cin >> inputFile;
 
-            cout << "Masukkan nama file output hasil dekripsi: ";
-            cin >> outputFile;
+            // --- OTOMATIS BALIKIN JADI .txt ---
+            size_t posSbox = inputFile.find(".sbox");
+            
+            if (posSbox != string::npos) {
+                // Kalau ketemu .sbox (misal: pesan.sbox), potong dan ganti jadi .txt
+                outputFile = inputFile.substr(0, posSbox) + ".txt";
+            } else {
+                // Kalau lupa ketik .sbox (misal: pesan), langsung tambahin .txt
+                outputFile = inputFile + ".txt";
+            }
+            // -----------------------------------
 
             try {
                 string key = inputKeyDenganValidasi();
@@ -159,5 +168,5 @@ int main() {
     } while (pilihan != 3);
 
     return 0;
-    
+
 }
