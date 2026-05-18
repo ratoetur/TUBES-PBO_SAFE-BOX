@@ -1,0 +1,6 @@
+[2026-05-18 20:09:18] ENCRYPT | File: test1.txt | User: ren | Status: SUCCESS
+[2026-05-18 20:49:08] ENCRYPT | File: test2.txt | User: ren | Status: SUCCESS
+[2026-05-18 20:51:18] DECRYPT | File: test2.sbox | User: ren | Status: SUCCESS
+[2026-05-18 21:15:44] ENCRYPT | File: test1.txt | User: dir | Status: SUCCESS
+[2026-05-18 21:27:52] DECRYPT | File: test1.sbox | User: dir | Status: FAILED: Invalid Key
+[2026-05-18 21:28:11] DECRYPT | File: test1.sbox | User: dir | Status: SUCCESS

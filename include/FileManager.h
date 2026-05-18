@@ -9,8 +9,15 @@
 
 using namespace std;
 
+void tulis_log(const string& aksi, const string& file,
+               const string& user, const string& status);
+
 class FileManager {
+    string currentUser;
+
 public:
+    FileManager(const string& user = "unknown") : currentUser(user) {}
+
     vector<char> readBinaryFile(const string& filename);
     void writeBinaryFile(const string& filename, const vector<char>& data);
 
