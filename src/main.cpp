@@ -53,6 +53,10 @@ string inputKeyDenganValidasi() {
     return key;
 }
 
+bool verifikasiKey(Cipher* cipher, const string& key) {
+    return *cipher == key;  // operator== kepake di sini
+}
+
 string getCurrentTime() {
     time_t now = time(0);
     string dt = ctime(&now);
@@ -100,6 +104,19 @@ int main() {
 
             try {
                 string key = inputKeyDenganValidasi();
+
+                string keyKonfirmasi;
+                cout << "Konfirmasi key: ";
+                cin >> keyKonfirmasi;
+
+                Cipher* cekKunci = new XorCipher(key);
+                if (!verifikasiKey(cekKunci, keyKonfirmasi)) {
+                    cout << "Key tidak cocok! Proses enkripsi dibatalkan." << endl;
+                    delete cekKunci;
+                    continue;
+                }
+                delete cekKunci;
+
                 FileManager fileManager;
  
                 if (!fileManager.exists(inputFile)) {
