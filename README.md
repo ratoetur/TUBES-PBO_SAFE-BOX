@@ -20,4 +20,4 @@ SafeBox adalah program C++ sederhana untuk mengenkripsi dan mendekripsi file men
 ```bash
 g++ src/*.cpp -Iinclude -o SafeBox
 
-g++ src/main.cpp src/FileManager.cpp src/XorCipher.cpp -Iinclude -o safebox.exe
+g++ src/main.cpp src/FileManager.cpp src/FileRegistry.cpp src/XorCipher.cpp src/CaesarCipher.cpp src/ShiftCipher.cpp -Iinclude -o safebox.exe

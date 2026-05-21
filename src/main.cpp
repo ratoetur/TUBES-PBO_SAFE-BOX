@@ -146,7 +146,6 @@ int main() {
                     cout << "Warning: file asli gagal dihapus." << endl;
                 }
 
-                // --- OTOMATIS JADIN .sbox ---
                 size_t titikTerakhir = inputFile.find_last_of(".");
                 
                 if (titikTerakhir != string::npos) {
@@ -154,7 +153,6 @@ int main() {
                 } else {
                     outputFile = inputFile + ".sbox";
                 }
-                // -----------------------------
 
                 cout << "File berhasil dienkripsi ke: " << outputFile << endl;
 
@@ -195,17 +193,13 @@ int main() {
                     cout << "Warning: file terenkripsi gagal dihapus." << endl;
                 }
 
-                // --- OTOMATIS BALIKIN JADI .txt ---
                 size_t posSbox = inputFile.find(".sbox");
                 
                 if (posSbox != string::npos) {
-                    // Kalau ketemu .sbox (misal: pesan.sbox), potong dan ganti jadi .txt
                     outputFile = inputFile.substr(0, posSbox) + ".txt";
                 } else {
-                    // Kalau lupa ketik .sbox (misal: pesan), langsung tambahin .txt
                     outputFile = inputFile + ".txt";
                 }
-                // -----------------------------------
 
                 cout << "File berhasil didekripsi ke: " << outputFile << endl;
 

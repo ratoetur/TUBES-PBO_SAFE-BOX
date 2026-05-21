@@ -4,3 +4,14 @@
 [2026-05-18 21:15:44] ENCRYPT | File: test1.txt | User: dir | Status: SUCCESS
 [2026-05-18 21:27:52] DECRYPT | File: test1.sbox | User: dir | Status: FAILED: Invalid Key
 [2026-05-18 21:28:11] DECRYPT | File: test1.sbox | User: dir | Status: SUCCESS
+[2026-05-19 08:05:27] ENCRYPT | File: test1.txt | User: slay | Status: SUCCESS
+[2026-05-19 08:06:06] DECRYPT | File: test1.sbox | User: slay | Status: SUCCESS
+[2026-05-19 08:15:59] ENCRYPT | File: test1.txt | User: rudi | Status: SUCCESS
+[2026-05-19 08:17:51] DECRYPT | File: test1.sbox | User: rudi | Status: SUCCESS
+[2026-05-19 08:18:55] ENCRYPT | File: test2.txt | User: rudi | Status: SUCCESS
+[2026-05-19 08:19:30] ENCRYPT | File: test1.txt | User: rudi | Status: SUCCESS
+[2026-05-19 09:02:47] DECRYPT | File: test1.sbox | User: rudi | Status: FAILED: Invalid Key
+[2026-05-19 09:03:51] DECRYPT | File: test2.sbox | User: rudi | Status: SUCCESS
+[2026-05-19 09:04:29] DECRYPT | File: test1.sbox | User: rudi | Status: SUCCESS
+[2026-05-20 09:38:19] ENCRYPT | File: test1.txt | User: kelompok | Status: SUCCESS
+[2026-05-20 09:39:17] DECRYPT | File: test1.sbox | User: kelompok | Status: SUCCESS
