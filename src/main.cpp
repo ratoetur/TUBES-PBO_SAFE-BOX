@@ -32,25 +32,27 @@ void waitKey() {
 Cipher* pilihAlgoritma(const string& key) {
     int pilihanAlgoritma;
 
-    cout << "Pilih algoritma enkripsi:" << endl;
-    cout << "1. XOR Cipher" << endl;
-    cout << "2. Caesar Cipher" << endl;
-    cout << "3. Shift Cipher" << endl;
-    cout << "Pilihan algoritma: ";
-    cin >> pilihanAlgoritma;
+    while (true) {
+        cout << "Pilih algoritma enkripsi:" << endl;
+        cout << "1. XOR Cipher" << endl;
+        cout << "2. Caesar Cipher" << endl;
+        cout << "3. Shift Cipher" << endl;
+        cout << "Pilihan algoritma: ";
+        cin >> pilihanAlgoritma;
 
-    if (pilihanAlgoritma == 1) {
-        return new XorCipher(key);
+        if (pilihanAlgoritma == 1) {
+            return new XorCipher(key);
+        }
+        else if (pilihanAlgoritma == 2) {
+            return new CaesarCipher(key);
+        }
+        else if (pilihanAlgoritma == 3) {
+            return new ShiftCipher(key);
+        }
+        else {
+            cout << "Pilihan tidak valid!" << endl;
+        }
     }
-    else if (pilihanAlgoritma == 2) {
-        return new CaesarCipher(key);
-    }
-    else if (pilihanAlgoritma == 3) {
-        return new ShiftCipher(key);
-    }
-
-    cout << "Hanya bisa pilih 1 (XOR) untuk sekarang!" << endl;
-    return new XorCipher(key); // Fallback aman
 }
 
 string inputKeyDenganValidasi() {

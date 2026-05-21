@@ -169,8 +169,8 @@ bool FileManager::decryptFile(const string& filename, Cipher& cipher) {
     temp.fromCharVector(dec);
     temp.clearSecure();
      
-        tulis_log("DECRYPT", filename, currentUser, "SUCCESS");
-        return true;
+    tulis_log("DECRYPT", filename, currentUser, "SUCCESS");
+    return true;
     } 
     catch (const InvalidKeyException&) {
         tulis_log("DECRYPT", filename, currentUser, "FAILED: Invalid Key");
