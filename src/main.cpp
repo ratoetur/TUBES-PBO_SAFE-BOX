@@ -122,6 +122,7 @@ int main() {
                 string key = inputKeyDenganValidasi();
 
                 Cipher* cipher = pilihAlgoritma(key);
+                
                 string keyKonfirmasi;
                 cout << "Konfirmasi key: ";
                 cin >> keyKonfirmasi;
